@@ -18,22 +18,38 @@ function cargarDatos() {
                 tablaDatos.appendChild(tr);
 
             });
-        })}
-    // alert("eror")
-    function eliminarClase(id) {
-        fetch("Controller/eliminarClaseController.php?id="+id)
+        })
+}
+
+function eliminarClase(id) {
+    fetch("Controller/eliminarClaseController.php?id=" + id)
         .then(response => response.text())
-        .then(data =>{
-            alert("ok")
+        .then(data => {
+            console.log(data)
         })
 
-        
-
-        
-
-        
-
-
-
 }
+
+
+function agregarClase() {
+    const id = document.getElementById("id").value;
+    const nombre = document.getElementById("nombre").value;
+    const descripcion = document.getElementById("descripcion").value;
+    fetch(
+        `./Controller/agregarClaseController.php?id=${id}&nombre=${nombre}&descripcion=${descripcion} `
+    )
+        .then((response) => {
+            cargarDatos();
+            return response.text();
+        })
+        .then((data) => {
+            console.log(data);
+            document.getElementById("id").value = "";
+            document.getElementById("nombre").value = "";
+            document.getElementById("descripcion").value = "";
+        });
+}
+
+  
+
 cargarDatos();

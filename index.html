@@ -48,10 +48,10 @@
           </div>
           <div class="modal-body">
 
-            <form id="formularioAgregar">
+            <form id="agregarF">
               <div class="mb-3">
                 <label for="descripcion" class="form-label">id</label>
-                <input type="text" class="form-control" id="descripcion" placeholder="Ingrese la identificacion" name="id">
+                <input type="text" class="form-control" id="id" placeholder="Ingrese la identificacion" name="id">
             </div>
               <div class="mb-3 mt-3">
                   <label for="nombre" class="form-label">Nombre</label>
@@ -61,7 +61,7 @@
                   <label for="descripcion" class="form-label">Descripción</label>
                   <input type="text" class="form-control" id="descripcion" placeholder="Ingrese la descripción" name="descripcion">
               </div>
-              <button type="submit" class="btn btn-success" id="btnAgregar">Agregar</button>
+              <button type="button" class="btn btn-success"data-bs-dismiss="modal" id="btnAgregar" onclick="agregarClase()">Agregar</button>
           </form>
           </div>
           <div class="modal-footer">
