@@ -40,80 +40,64 @@ class ProductoDAO{
 
 
     }
-    function TraerClases(){
-        $conexion=new Conexion ("localhost", "php" ,  "root" , "");
-        //  $ const = conexion -> Conectar ();
-        try{
-            $conn = $conexion -> Conectar();
-            $stmt = $conn -> query('SELECT * FROM electrodomesticos');
-            $rows = $stmt -> fetchAll (PDO::FETCH_ASSOC);
-        
-            return$rows;
-           
-        } catch(PDOException $e){
-            echo"error de conexion" . $e->getMessage();
-        }
-
-
-
-    }
-    function eliminarClase($id){
-        $conexion=new Conexion ("localhost", "php" ,  "root" , "");
-        //  $ const = conexion -> Conectar ();
-        try{
-            $conn = $conexion -> Conectar();
-            $stmt = $conn -> query("DELETE  FROM electrodomesticos WHERE id=$id ");
-            $consulta=$conexion->prepare($query);
-            $consulta->execute();
-            return"se elimino ";
-        } catch(PDOException $e){
-            echo"error de conexion" . $e->getMessage();
-        }
-
-
-
-    }
-
-
-
-    function agregarClase( $id, $nombre, $descripcion) {
+    function TraerClases() {
         $conexion = new Conexion("localhost", "php", "root", "");
         try {
             $conn = $conexion->Conectar();
-            $agregar = $conn -> prepare("INSERT  INTO electrodomesticos ( `id`, `nombre`, `descripcion`) VALUES (  ? ,? , ?)");
-            $agregar->bindParam(1, $id);
-            $agregar->bindParam(2, $nombre);
-            $agregar->bindParam(3, $descripcion);
-            $agregar->execute();
-    
-            return "Registro agregado correctamente";
-        } catch(PDOException $e) {
-            return "Error al agregar registro: " . $e->getMessage();
+            $stmt = $conn->query('SELECT * FROM electrodomesticos');
+            $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $rows;
+        } catch (PDOException $e) {
+            echo "Error de conexión: " . $e->getMessage();
         }
     }
 
-   
-
-   
-    
-
-
-
-
-
-
-
-
-
-
+    function eliminarClase($id) {
+        $conexion = new Conexion("localhost", "php", "root", "");
+        try {
+            $conn = $conexion->Conectar();
+            $stmt = $conn->prepare("DELETE FROM electrodomesticos WHERE id = ?");
+            $stmt->execute([$id]);
+            return "Se eliminó correctamente";
+        } catch (PDOException $e) {
+            echo "Error de conexión: " . $e->getMessage();
+        }
+    }
+    function agregarClase($id, $nombre, $descripcion) {
+        $conexion = new Conexion("localhost", "php", "root", "");
+        try {
+            $conn = $conexion->Conectar();
+            $stmt = $conn->prepare("INSERT INTO electrodomesticos (id, nombre, descripcion) VALUES (?, ?, ?)");
+            $stmt->execute([$id, $nombre, $descripcion]);
+            return "Registro agregado correctamente";
+        } catch (PDOException $e) {
+            return "Error al agregar registro: " . $e->getMessage();
+        }
+    }
+    function TraerClase($id) {
+        $conexion = new Conexion("localhost", "php", "root", "");
+        try {
+            $conn = $conexion->Conectar();
+            $stmt = $conn->prepare("SELECT * FROM electrodomesticos WHERE id = ?");
+            $stmt->execute([$id]);
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $row;
+        } catch (PDOException $e) {
+            echo "Error de conexión: " . $e->getMessage();
+        }
+    }
+    function modificarClase($id, $nombre, $descripcion) {
+        $conexion = new Conexion("localhost", "php", "root", "");
+        try {
+            $conn = $conexion->Conectar();
+            $stmt = $conn->prepare("UPDATE electrodomesticos SET nombre = ?, descripcion = ? WHERE id = ?");
+            $stmt->execute([$nombre, $descripcion, $id]);
+            return "Registro actualizado correctamente";
+        } catch (PDOException $e) {
+            return "Error al actualizar registro: " . $e->getMessage();
+        }
+    }
 }
-
-
-
-
-
-
-
 
 
 

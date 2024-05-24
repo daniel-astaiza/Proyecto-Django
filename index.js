@@ -1,55 +1,181 @@
 
-function cargarDatos() {
+// function cargarDatos() {
+//   fetch("Controller/traerClasesController.php")
+//       .then(response => response.json())
+//       .then(data => {
+//           const tablaDatos = document.getElementById("tablaDatos");
+//           tablaDatos.innerHTML = "";
+//           data.forEach(row => {
+//               const tr = document.createElement("tr");   
+//               tr.innerHTML = `
+//                   <td>${row.id}</td>
+//                   <td>${row.nombre}</td>
+//                   <td>${row.descripcion}</td>
+//                   <td>
+//                       <button type="button" class="btn btn-success" onclick="traerDatos(${row.id})" data-bs-toggle="modal" data-bs-target="#exampleModal">
+//                           Editar
+//                       </button>
+//                       <button class="btn btn-small btn-danger" onclick="eliminarClase(${row.id})">Eliminar</button>
+//                   </td>
+//               `;
+//               tablaDatos.appendChild(tr);
+//           });
+//       })
+// }
 
-    fetch("Controller/traerClasesController.php")
-        .then(response => response.json())
-        .then(data => {
-            const tablaDatos = document.getElementById("tablaDatos");
-            tablaDatos.innerHTML = "";
-            data.forEach(row => {
-                const tr = document.createElement("tr");
-                tr.innerHTML = `
-            <td>${row.id}</td>
-            <td>${row.nombre}</td>
-            <td>${row.descripcion}</td>
-            <button class="btn btn-small btn-success"> Editar </button>
-            <button class="btn btn-small btn-danger" onclick="eliminarClase(${row.id})"> Eliminar </button>
-            `;
-                tablaDatos.appendChild(tr);
-
-            });
-        })
-}
-
-function eliminarClase(id) {
-    fetch("Controller/eliminarClaseController.php?id=" + id)
-        .then(response => response.text())
-        .then(data => {
-            console.log(data)
-        })
-
-}
+// function eliminarClase(id) {
+//   fetch("Controller/eliminarClaseController.php?id=" + id)
+//       .then(response => response.text())
+//       .then(data => {
+//           console.log(data);
+//           cargarDatos();
+//       });
+// }
 
 
-function agregarClase() {
-    const id = document.getElementById("id").value;
-    const nombre = document.getElementById("nombre").value;
-    const descripcion = document.getElementById("descripcion").value;
-    fetch(
-        `./Controller/agregarClaseController.php?id=${id}&nombre=${nombre}&descripcion=${descripcion} `
-    )
-        .then((response) => {
-            cargarDatos();
-            return response.text();
-        })
-        .then((data) => {
-            console.log(data);
-            document.getElementById("id").value = "";
-            document.getElementById("nombre").value = "";
-            document.getElementById("descripcion").value = "";
-        });
-}
+// function agregarClase() {
+//   const id = document.getElementById("id").value;
+//   const nombre = document.getElementById("nombre").value;
+//   const descripcion = document.getElementById("descripcion").value;
+//   fetch(
+//       `./Controller/agregarClaseController.php?id=${id}&nombre=${nombre}&descripcion=${descripcion}`
+//   )
+//       .then(response => response.text())
+//       .then(data => {
+//           cargarDatos();
+//           console.log(data);
+//           document.getElementById("id").value = "";
+//           document.getElementById("nombre").value = "";
+//           document.getElementById("descripcion").value = "";
+//       });
+// }
+// function limpiarF() {
+//   document.getElementById("id").value = "";
+//   document.getElementById("nombre").value = "";
+//   document.getElementById("descripcion").value = "";
+// }
+
+// function guardarClase(id, nombre, descripcion) {
+//   fetch(
+//       `./Controller/guardarClaseController.php?id=${id}&nombre=${nombre}&descripcion=${descripcion}`
+//   )
+//       .then(response => response.text())
+//       .then(data => {
+//           limpiarF();
+//           cargarDatos();
+//       });
+// }
+
+// function traerDatos(id) {
+//   fetch(`./Controller/traerClaseController.php?id=${id}`)
+//       .then(response => response.json())
+//       .then(data => {
+//           document.getElementById("id").value = data.id;
+//           document.getElementById("nombre").value = data.nombre;
+//           document.getElementById("descripcion").value = data.descripcion;
+
+//           var boton = document.getElementById("btnAgregar");
+//           boton.onclick = function () {
+//               var id = document.getElementById("id").value;
+//               var nombre = document.getElementById("nombre").value;
+//               var descripcion = document.getElementById("descripcion").value;
+//               guardarClase(id, nombre, descripcion);
+//           };
+//       });
+// }
+
+
 
   
 
+// cargarDatos();
+function cargarDatos() {
+  fetch("Controller/traerClasesController.php")
+      .then(response => response.json())
+      .then(data => {
+          const tablaDatos = document.getElementById("tablaDatos");
+          tablaDatos.innerHTML = "";
+          data.forEach(row => {
+              const tr = document.createElement("tr");
+              tr.innerHTML = `
+                  <td>${row.id}</td>
+                  <td>${row.nombre}</td>
+                  <td>${row.descripcion}</td>
+                  <td>
+                      <button type="button" class="btn btn-success" onclick="traerDatos(${row.id})" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                          Editar
+                      </button>
+                      <button class="btn btn-small btn-danger" onclick="eliminarClase(${row.id})">Eliminar</button>
+                  </td>
+              `;
+              tablaDatos.appendChild(tr);
+          });
+      });
+}
+
+function eliminarClase(id) {
+  fetch("Controller/eliminarClaseController.php?id=" + id)
+      .then(response => response.text())
+      .then(data => {
+          console.log(data);
+          cargarDatos();
+      });
+}
+
+function agregarClase() {
+  const id = document.getElementById("id").value;
+  const nombre = document.getElementById("nombre").value;
+  const descripcion = document.getElementById("descripcion").value;
+  fetch(`./Controller/agregarClaseController.php?id=${id}&nombre=${nombre}&descripcion=${descripcion}`)
+      .then(response => response.text())
+      .then(data => {
+          cargarDatos();
+          console.log(data);
+          limpiarF();
+      })
+      .catch(error => console.error('Error al agregar la clase:', error));
+}
+
+function limpiarF() {
+  document.getElementById("id").value = "";
+  document.getElementById("nombre").value = "";
+  document.getElementById("descripcion").value = "";
+}
+
+function guardarClase(id, nombre, descripcion) {
+  fetch(`./Controller/guardarClaseController.php?id=${id}&nombre=${nombre}&descripcion=${descripcion}`)
+      .then(response => response.text())
+      .then(data => {
+          console.log(data);
+          limpiarF();
+          cargarDatos();
+      })
+      .catch(error => console.error('Error al guardar la clase:', error));
+}
+
+function traerDatos(id) {
+  fetch(`./Controller/traerClaseController.php?id=${id}`)
+      .then(response => response.json())
+      .then(data => {
+          document.getElementById("id").value = data.id;
+          document.getElementById("nombre").value = data.nombre;
+          document.getElementById("descripcion").value = data.descripcion;
+
+          var boton = document.getElementById("btnAgregar");
+          boton.onclick = function () {
+              var id = document.getElementById("id").value;
+              var nombre = document.getElementById("nombre").value;
+              var descripcion = document.getElementById("descripcion").value;
+              if (id) {
+                  guardarClase(id, nombre, descripcion);
+              } else {
+                  agregarClase();
+              }
+          };
+      })
+      .catch(error => console.error('Error al traer los datos:', error));
+}
+
+
 cargarDatos();
+
